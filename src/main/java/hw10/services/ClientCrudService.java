@@ -1,6 +1,7 @@
-package hw10.Services;
+package hw10.services;
 
-import hw10.entities.Planet;
+
+import hw10.entities.Client;
 import hw10.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,34 +9,35 @@ import org.hibernate.Transaction;
 
 import java.util.NoSuchElementException;
 
-public class PlanetCrudService {
-    private final SessionFactory sessionFactory;
-    public PlanetCrudService() {
+public class ClientCrudService {
+private final SessionFactory sessionFactory;
+    public ClientCrudService() {
         this.sessionFactory = HibernateUtil.getInstance().getSessionFactory();
     }
 
-    public void postPlanet(Planet planet){
+        public void postClient(Client client){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(planet);
+        session.persist(client);
         transaction.commit();
         session.close();
     }
-    public Planet getById(String id){
+    public Client getById(int id){
         Session session = sessionFactory.openSession();
-        Planet planet = session.get(Planet.class, id);
-        if(planet==null) {
-            throw new NoSuchElementException("Planet with id " + id + " not found");
+        Client client = session.get(Client.class, Integer.toUnsignedLong(id));
+        if(client==null) {
+            throw new NoSuchElementException("Client with id " + id + " not found");
         }
         session.close();
-        return planet;
+        return client;
     }
 
-    public void deletePlanet(Planet planet){
+    public void deleteClient(Client client){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.remove(planet);
+        session.remove(client);
         transaction.commit();
         session.close();
     }
+
 }
