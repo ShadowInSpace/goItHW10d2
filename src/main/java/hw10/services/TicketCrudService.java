@@ -21,9 +21,14 @@ public class TicketCrudService {
 ticket.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        Client client = session.get(Client.class, ticket.getClient().getId());
+        if (client != null) {
+            ticket.setClient(client);
+        }
         session.persist(ticket);
         transaction.commit();
         session.close();
+
     }
     public Ticket getById(int id){
         Session session = sessionFactory.openSession();
